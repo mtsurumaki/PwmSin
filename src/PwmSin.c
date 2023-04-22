@@ -11,9 +11,11 @@ void PwmSin_Gen(uint8_t *array, uint16_t size)
 	double sin_var;
 	double sample;
 	double step_value;
+	uint16_t = offset;
 
 	sample = 0.0;
 	step_value = (1.0 / (double)size);
+	offset = (size / BIT_PER_BYTE);
 
 	for (i = 0; i < size; i++)
 	{
@@ -25,14 +27,14 @@ void PwmSin_Gen(uint8_t *array, uint16_t size)
 		{
 			for (j = 0; j < BIT_PER_BYTE; j++)
 			{
-				array[(i + (j * (size / BIT_PER_BYTE))) % size] |= (0x01 << j);
+				array[(i + (j * offset)) % size] |= (0x01 << j);
 			}
 		}
 		else
 		{
 			for (j = 0; j < BIT_PER_BYTE; j++)
 			{
-				array[(i + (j * (size / BIT_PER_BYTE))) % size] &= 0xFF ^ (0x01 << j);
+				array[(i + (j * offset)) % size] &= (0xFF ^ (0x01 << j));
 			}
 		}
 
