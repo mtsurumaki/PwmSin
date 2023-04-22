@@ -1,10 +1,12 @@
 #include <PwmSin.h>
 
 #define TRIANGLE_CYCLE 0.02655 // sankakuha syuhasuu
+#define BIT_PER_BYTE 8
 
 void PwmSin_Gen(uint8_t *array, uint16_t size)
 {
 	uint16_t i; // loop counter
+	uint8_t j;
 	double try;
 	double sin_var;
 	double sample;
@@ -21,11 +23,17 @@ void PwmSin_Gen(uint8_t *array, uint16_t size)
 
 		if (sin_var >= try)
 		{
-			array[i] = 0xFF;
+			for (j = 0; j < BIT_PER_BYTE; j++)
+			{
+				array[(i + (j * (size / BIT_PER_BYTE))) % size] |= (0x01 << j);
+			}
 		}
 		else
 		{
-			array[i] = 0x00;
+			for (j = 0; j < BIT_PER_BYTE; j++)
+			{
+				array[(i + (j * (size / BIT_PER_BYTE))) % size] &= 0xFF ^ (0x01 << j);
+			}
 		}
 
 		sample += step_value;
