@@ -11,7 +11,7 @@ void PwmSin_Gen(uint8_t *array, uint16_t size)
 	double sin_var;
 	double sample;
 	double step_value;
-	uint16_t = offset;
+	uint16_t offset;
 
 	sample = 0.0;
 	step_value = (1.0 / (double)size);
